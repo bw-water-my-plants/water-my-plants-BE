@@ -1,10 +1,10 @@
 const db = require('../dbConfig');
 
-async function getUserByUsername(username) {
+async function getUserByEmail(email) {
     return await db
         .select('*')
         .from('users')
-        .where({ username })
+        .where({ email })
         .first();
 }
 
@@ -39,7 +39,7 @@ async function deleteUser(id) {
 }
 
 module.exports = {
-    getUserByUsername,
+    getUserByEmail,
     getUserById,
     insertUser,
     updateUser,
