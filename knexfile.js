@@ -3,7 +3,7 @@ require('dotenv').config();
 const localConnection = {
     host: 'localhost',
     database: 'my_db',
-    user: 'email',
+    user: 'username',
     password: 'password'
 };
 
