@@ -1,5 +1,5 @@
 require('dotenv').config();
-const Users = require('../../database/helpers/users');
+const Users = require('../database/helpers/users');
 
 async function getUser(req, res) {
     try {

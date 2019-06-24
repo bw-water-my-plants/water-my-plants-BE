@@ -1,4 +1,4 @@
-const Users = require('../../database/helpers/users');
+const Users = require('../database/helpers/users');
 const bcrypt = require('bcryptjs');
 const createToken = require('../middleware/generateTokenMiddleware');
 
