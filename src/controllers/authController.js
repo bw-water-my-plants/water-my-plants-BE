@@ -22,7 +22,7 @@ async function loginUser(req, res) {
 }
 
 async function registerUser(req, res) {
-    const { email, password, username, phone_number } = req.body;
+    let { email, password, username, phone_number } = req.body;
     if (!email || !password || !username || !phone_number) {
         return await res.status(400).json({ message: "Can't register user. Some information are missing" });
     } else {
@@ -44,5 +44,6 @@ async function registerUser(req, res) {
 }
 
 module.exports = {
-    loginUser
+    loginUser,
+    registerUser
 };
