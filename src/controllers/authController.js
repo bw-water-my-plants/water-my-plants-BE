@@ -5,7 +5,7 @@ const createToken = require('../middleware/generateTokenMiddleware');
 async function loginUser(req, res) {
     const { email, password } = req.body;
     if (!email || !password) {
-        return await res.status(404).json({ message: 'Incorrect credenatials!' });
+        return await res.status(404).json({ message: 'Missing credentails' });
     } else {
         try {
             let user = await Users.getUserByEmail(email);
@@ -13,7 +13,7 @@ async function loginUser(req, res) {
                 const token = await createToken(user);
                 return await res.status(200).json({ token });
             } else {
-                return await res.status(404).json({ message: 'User not found!' });
+                return await res.status(404).json({ message: 'Incorrect credentials' });
             }
         } catch (err) {
             return await res.status(500).json({ err: error });
