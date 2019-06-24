@@ -1,7 +1,7 @@
 const router = require('express').Router();
-const authRouter = require('./auth');
-const plantsRouter = require('./plants');
-const usersRouter = require('./users');
+const authRouter = require('./authRoot');
+const plantsRouter = require('./plantsRoot');
+const usersRouter = require('./usersRoot');
 
 router.use('/auth', authRouter);
 router.use('/plants', plantsRouter);
