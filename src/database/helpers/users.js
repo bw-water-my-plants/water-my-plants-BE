@@ -8,6 +8,14 @@ async function getUserByEmail(email) {
         .first();
 }
 
+async function getUserByPhoneNumber(phone_number) {
+    return await db
+        .select('*')
+        .from('users')
+        .where({ phone_number })
+        .first();
+}
+
 async function getUserById(id) {
     return await db
         .select('*')
@@ -40,6 +48,7 @@ async function deleteUser(id) {
 
 module.exports = {
     getUserByEmail,
+    getUserByPhoneNumber,
     getUserById,
     insertUser,
     updateUser,

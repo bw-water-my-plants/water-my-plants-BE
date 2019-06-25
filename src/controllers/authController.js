@@ -30,15 +30,18 @@ async function registerUser(req, res) {
             let hashedPassword = bcrypt.hashSync(password, 10);
             password = hashedPassword;
 
-            const user = await Users.getUserByEmail(email);
-            if (user !== undefined) {
-                throw new Error('User already registered');
+            const userWithThisEmail = await Users.getUserByEmail(email);
+            const userWithThisPhoneNumber = await Users.getUserByPhoneNumber(phone_number);
+            if (userWithThisEmail !== undefined) {
+                throw new Error('Email already registered');
+            } else if (userWithThisPhoneNumber !== undefined) {
+                throw new Error('Phone number already registered');
             } else {
                 await Users.insertUser({ email, password, username, phone_number });
                 return res.status(201).json({ message: 'Successfully registered!' });
             }
         } catch (err) {
-            return await res.status(500).json({ error: err });
+            return await res.status(500).json({ error: err.message });
         }
     }
 }
