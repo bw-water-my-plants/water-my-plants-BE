@@ -3,8 +3,8 @@ const Users = require('../database/helpers/users');
 
 async function getUser(req, res) {
     try {
-        const userId = req.body.id;
-        const user = await Users.getUserById(userId);
+        let id = req.decoded.subject;
+        const user = await Users.getUserById(id);
         return await res.status(200).json({
             id: user.id,
             username: user.username,
