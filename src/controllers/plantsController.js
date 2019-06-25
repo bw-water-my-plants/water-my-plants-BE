@@ -2,8 +2,8 @@ require('dotenv').config();
 const Plants = require('../database/helpers/plants');
 
 async function createPlant(req, res) {
-    const { name, watering_frequency, first_watered_at } = req.body;
-    if (!name || !watering_frequency || !first_watered_at) {
+    const { name, watering_frequency, last_watered_at } = req.body;
+    if (!name || !watering_frequency || !last_watered_at) {
         return await res.status(400).json({ error: "Can't add plant. Some information are missing" });
     } else {
         try {

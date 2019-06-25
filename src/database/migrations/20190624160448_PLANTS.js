@@ -5,7 +5,7 @@ exports.up = function(knex, Promise) {
         table.integer('user_id').notNullable();
         table.string('name', 128).notNullable();
         table.integer('watering_frequency').notNullable();
-        table.timestamp('first_watered_at').notNullable();
+        table.timestamp('last_watered_at').notNullable();
         table.string('height', 128);
     });
 };
