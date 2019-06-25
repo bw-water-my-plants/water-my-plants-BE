@@ -41,9 +41,19 @@ async function updatePlant(req, res) {
     }
 }
 
+async function deletePlant(req, res) {
+    try {
+        const plant_id = req.params.id;
+        await Plants.deletePlant(plant_id);
+        return await res.status(200).json({ message: 'Plant deleted!' });
+    } catch (err) {
+        return await res.status(404).json({ message: 'Plant not found!' });
+    }
+}
 module.exports = {
     createPlant,
     getPlant,
     getAllPlants,
-    updatePlant
+    updatePlant,
+    deletePlant
 };
