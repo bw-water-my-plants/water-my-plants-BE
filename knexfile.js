@@ -3,7 +3,7 @@ require('dotenv').config();
 const localConnection = {
     host: 'localhost',
     database: 'my_db',
-    user: 'email',
+    user: 'username',
     password: 'password'
 };
 
@@ -14,13 +14,13 @@ module.exports = {
         client: 'sqlite3',
         useNullAsDefault: true,
         connection: {
-            filename: './database/water-my-plants.sqlite3'
+            filename: './src/database/water-my-plants.sqlite3'
         },
         migrations: {
-            directory: './database/migrations'
+            directory: './src/database/migrations'
         },
         seeds: {
-            directory: './database/seeds'
+            directory: './src/database/seeds'
         }
     },
     testing: {
