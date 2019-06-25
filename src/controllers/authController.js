@@ -5,7 +5,7 @@ const createToken = require('../middleware/generateTokenMiddleware');
 async function loginUser(req, res) {
     const { email, password } = req.body;
     if (!email || !password) {
-        return await res.status(404).json({ message: 'Missing credentails' });
+        return await res.status(404).json({ error: 'Missing credentails' });
     } else {
         try {
             let user = await Users.getUserByEmail(email);
@@ -13,10 +13,10 @@ async function loginUser(req, res) {
                 const token = await createToken(user);
                 return await res.status(200).json({ token });
             } else {
-                return await res.status(404).json({ message: 'Incorrect credentials' });
+                return await res.status(404).json({ error: 'Incorrect credentials' });
             }
         } catch (err) {
-            return await res.status(500).json({ message: err });
+            return await res.status(500).json({ error: err });
         }
     }
 }
@@ -24,7 +24,7 @@ async function loginUser(req, res) {
 async function registerUser(req, res) {
     let { email, password, username, phone_number } = req.body;
     if (!email || !password || !username || !phone_number) {
-        return await res.status(400).json({ message: "Can't register user. Some information are missing" });
+        return await res.status(400).json({ error: "Can't register user. Some information are missing" });
     } else {
         try {
             let hashedPassword = bcrypt.hashSync(password, 10);
@@ -41,7 +41,7 @@ async function registerUser(req, res) {
                 return res.status(201).json({ message: 'Successfully registered!' });
             }
         } catch (err) {
-            return await res.status(500).json({ message: err.message });
+            return await res.status(500).json({ error: err.message });
         }
     }
 }
