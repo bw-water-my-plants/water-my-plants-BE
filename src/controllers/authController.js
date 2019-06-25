@@ -16,7 +16,7 @@ async function loginUser(req, res) {
                 return await res.status(404).json({ message: 'Incorrect credentials' });
             }
         } catch (err) {
-            return await res.status(500).json({ err: error });
+            return await res.status(500).json({ message: err });
         }
     }
 }
@@ -41,7 +41,7 @@ async function registerUser(req, res) {
                 return res.status(201).json({ message: 'Successfully registered!' });
             }
         } catch (err) {
-            return await res.status(500).json({ error: err.message });
+            return await res.status(500).json({ message: err.message });
         }
     }
 }
