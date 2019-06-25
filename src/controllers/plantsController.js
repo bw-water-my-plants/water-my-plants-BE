@@ -31,8 +31,19 @@ async function getAllPlants(req, res) {
     }
 }
 
+async function updatePlant(req, res) {
+    try {
+        const plant_id = req.params.id;
+        const plant = await Plants.updatePlant(req.body, plant_id);
+        return await res.status(200).json(plant);
+    } catch (err) {
+        return await res.status(404).json({ message: 'Plant not found!' });
+    }
+}
+
 module.exports = {
     createPlant,
     getPlant,
-    getAllPlants
+    getAllPlants,
+    updatePlant
 };

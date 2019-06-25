@@ -17,7 +17,7 @@ async function getPlantByUserId(user_id) {
         .where({ user_id });
 }
 
-async function updatePlant(plant) {
+async function updatePlant(plant, plant_id) {
     return await db('plants')
         .where({ plant_id })
         .update({ plant_type_id: plant.plant_type_id, name: plant.name, watering_frequency: plant.watering_frequency, first_watered_at: plant.first_watered_at, height: plant.height });

@@ -5,5 +5,6 @@ const plantsController = require('../controllers/plantsController');
 router.route('/').post(authentication, plantsController.createPlant);
 router.route('/').get(authentication, plantsController.getAllPlants);
 router.route('/:id').get(authentication, plantsController.getPlant);
+router.route('/:id').put(authentication, plantsController.updatePlant);
 
 module.exports = router;
