@@ -17,11 +17,22 @@ async function getPlant(req, res) {
         const plant = await Plants.getPlantById(plant_id);
         return await res.status(200).json(plant);
     } catch (err) {
-        return await res.status(404).json({ message: 'User profile not found!' });
+        return await res.status(404).json({ message: 'Plant not found!' });
+    }
+}
+
+async function getAllPlants(req, res) {
+    try {
+        let user_id = req.decoded.subject;
+        const allPlants = await Plants.getPlantByUserId(user_id);
+        return await res.status(200).json(allPlants);
+    } catch (err) {
+        return await res.status(404).json({ message: 'Plants not found!' });
     }
 }
 
 module.exports = {
     createPlant,
-    getPlant
+    getPlant,
+    getAllPlants
 };
