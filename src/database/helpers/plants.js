@@ -28,7 +28,7 @@ async function deletePlant(plant_id) {
         .del();
 }
 
-module.esports = {
+module.exports = {
     addPlant,
     getPlantById,
     getPlantByUserId,
