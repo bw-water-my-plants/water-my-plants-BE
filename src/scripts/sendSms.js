@@ -1,21 +1,25 @@
 require('dotenv').config();
+//twilio
 const accountSid = process.env.TWILLIO_SID;
 const authToken = process.env.TWILLIO_TOKEN;
-
 const client = require('twilio')(accountSid, authToken);
 
+//db
 const Plants = require('../database/helpers/plants');
 const Users = require('../database/helpers/users');
 
+//variables
+let todayStart = new Date();
+todayStart.setHours(0, 0, 0, 0);
+
+let todayEnd = new Date();
+todayEnd.setHours(24, 0, 0, 0);
+
 async function getAllPhoneNumbers() {
     try {
-        let todayStart = new Date();
-        todayStart.setHours(0, 0, 0, 0);
-        let todayEnd = new Date();
-        todayEnd.setHours(24, 0, 0, 0);
         let listOfPlants = await Plants.getAllPlantsThatNeedsToBeWateredToday(todayStart, todayEnd);
         let listOfPhoneNumbers = await mapPhoneNumbers(listOfPlants);
-        ////
+        //twilio sending reminders
         Promise.all(
             listOfPhoneNumbers.map(info => {
                 return client.messages.create({
@@ -25,7 +29,7 @@ async function getAllPhoneNumbers() {
                 });
             })
         )
-            .then(messages => {
+            .then(() => {
                 console.log('Messages sent!');
             })
             .catch(err => console.error(err));
