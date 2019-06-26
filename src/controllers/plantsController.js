@@ -1,4 +1,5 @@
 require('dotenv').config();
+const uuid = require('uuid');
 const Plants = require('../database/helpers/plants');
 
 async function createPlant(req, res) {
@@ -8,12 +9,13 @@ async function createPlant(req, res) {
     } else {
         try {
             const user_id = req.decoded.subject;
-            const newPlant = await Plants.addPlant(req.body, user_id);
+            const plant_id = uuid();
+            const newPlant = await Plants.addPlant(req.body, plant_id, user_id);
             if (req.body.height) {
-                const plantHeight = await Plants.addToHeightHistory(newPlant[0], user_id, req.body.height);
+                const plantHeight = await Plants.addToHeightHistory(plant_id, user_id, req.body.height);
             }
-            const plantWatering = await Plants.addToWateringHistory(newPlant[0], user_id, req.body.last_watered_at);
-            return res.status(201).json({ plant_id: newPlant[0] });
+            const plantWatering = await Plants.addToWateringHistory(plant_id, user_id, req.body.last_watered_at);
+            return res.status(201).json({ plant_id: plant_id });
         } catch (err) {
             return await res.status(404).json({ error: err.message });
         }

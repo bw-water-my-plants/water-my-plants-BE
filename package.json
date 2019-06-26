@@ -21,7 +21,8 @@
         "jsonwebtoken": "^8.5.1",
         "knex": "^0.17.6",
         "pg": "^7.11.0",
-        "sqlite3": "^4.0.9"
+        "sqlite3": "^4.0.9",
+        "uuid": "^3.3.2"
     },
     "devDependencies": {
         "jest": "^24.8.0",

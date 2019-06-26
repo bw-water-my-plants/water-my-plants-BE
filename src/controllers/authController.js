@@ -1,6 +1,7 @@
 const Users = require('../database/helpers/users');
 const bcrypt = require('bcryptjs');
 const createToken = require('../middleware/generateTokenMiddleware');
+const uuid = require('uuid');
 
 async function loginUser(req, res) {
     const { email, password } = req.body;
@@ -29,7 +30,6 @@ async function registerUser(req, res) {
         try {
             let hashedPassword = bcrypt.hashSync(password, 10);
             password = hashedPassword;
-
             const userWithThisEmail = await Users.getUserByEmail(email);
             const userWithThisPhoneNumber = await Users.getUserByPhoneNumber(phone_number);
             if (userWithThisEmail !== undefined) {
@@ -37,7 +37,8 @@ async function registerUser(req, res) {
             } else if (userWithThisPhoneNumber !== undefined) {
                 throw new Error('Phone number already registered');
             } else {
-                await Users.insertUser({ email, password, username, phone_number });
+                const user_id = uuid();
+                await Users.insertUser({ email, password, username, phone_number }, user_id);
                 return res.status(201).json({ message: 'Successfully registered!' });
             }
         } catch (err) {

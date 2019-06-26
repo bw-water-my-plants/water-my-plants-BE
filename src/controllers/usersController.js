@@ -6,7 +6,7 @@ async function getUser(req, res) {
         const user_id = req.decoded.subject;
         const user = await Users.getUserById(user_id);
         return await res.status(200).json({
-            id: user.id,
+            user_id: user.user_id,
             username: user.username,
             email: user.email,
             phone_number: user.phone_number
@@ -18,8 +18,8 @@ async function getUser(req, res) {
 
 async function updateUser(req, res) {
     try {
-        let id = req.decoded.subject;
-        const user = await Users.updateUser(id, req.body);
+        let user_id = req.decoded.subject;
+        const user = await Users.updateUser(user_id, req.body);
         if (user === 1) {
             return await res.status(200).json({ message: 'Succesfully changed' });
         } else {
