@@ -1,7 +1,7 @@
 const db = require('../dbConfig');
 
-async function addPlant(plant, user_id) {
-    return await db('plants').insert({ plant_type_id: plant.plant_type_id, name: plant.name, watering_frequency: plant.watering_frequency, last_watered_at: plant.last_watered_at, height: plant.height, user_id: user_id });
+async function addPlant(plant, plant_id, user_id) {
+    return await db('plants').insert({ plant_type_id: plant.plant_type_id, name: plant.name, watering_frequency: plant.watering_frequency, last_watered_at: plant.last_watered_at, height: plant.height, user_id: user_id, plant_id: plant_id });
 }
 
 async function getPlantById(plant_id) {
