@@ -28,10 +28,34 @@ async function deletePlant(plant_id) {
         .del();
 }
 
+async function addToWateringHistory(plant_id, user_id, last_watered_at) {
+    return await db('plants_watering').insert({ plant_id: plant_id, user_id, last_watered_at });
+}
+
+async function addToHeightHistory(plant_id, user_id, height) {
+    return await db('plants_height').insert({ plant_id, user_id, height });
+}
+
+async function getWateringHistory(plant_id) {
+    return await db('plants_watering')
+        .select('*')
+        .where({ plant_id });
+}
+
+async function getHeightHistory(plant_id) {
+    return await db('plants_height')
+        .select('*')
+        .where({ plant_id });
+}
+
 module.exports = {
     addPlant,
     getPlantById,
     getPlantByUserId,
     updatePlant,
-    deletePlant
+    deletePlant,
+    addToWateringHistory,
+    addToHeightHistory,
+    getWateringHistory,
+    getHeightHistory
 };
