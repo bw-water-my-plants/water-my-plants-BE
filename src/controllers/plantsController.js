@@ -25,7 +25,7 @@ async function createPlant(req, res) {
 async function getPlant(req, res) {
     try {
         const user_id = req.decoded.subject;
-        const plant_id = req.params.id;
+        const plant_id = req.params.plant_id;
         const plant = await Plants.getPlantById(plant_id);
         if (plant.user_id == user_id) {
             return await res.status(200).json(plant);
@@ -40,7 +40,7 @@ async function getPlant(req, res) {
 async function getPlantHeight(req, res) {
     try {
         const user_id = req.decoded.subject;
-        const plant_id = req.params.id;
+        const plant_id = req.params.plant_id;
         const plant = await Plants.getHeightHistory(plant_id);
         if (plant[0].user_id == user_id) {
             return await res.status(200).json(plant);
@@ -55,7 +55,7 @@ async function getPlantHeight(req, res) {
 async function getPlantWatering(req, res) {
     try {
         const user_id = req.decoded.subject;
-        const plant_id = req.params.id;
+        const plant_id = req.params.plant_id;
         const plant = await Plants.getWateringHistory(plant_id);
         if (plant[0].user_id == user_id) {
             return await res.status(200).json(plant);
@@ -80,7 +80,7 @@ async function getAllPlants(req, res) {
 async function updatePlant(req, res) {
     try {
         const user_id = req.decoded.subject;
-        const plant_id = req.params.id;
+        const plant_id = req.params.plant_id;
         const plant = await Plants.getPlantById(plant_id);
         if (plant.user_id === user_id) {
             if (req.body.height !== undefined) {
@@ -107,7 +107,7 @@ async function updatePlant(req, res) {
 async function deletePlant(req, res) {
     try {
         const user_id = req.decoded.subject;
-        const plant_id = req.params.id;
+        const plant_id = req.params.plant_id;
         const plant = await Plants.getPlantById(plant_id);
         if (plant.user_id === user_id) {
             await Plants.deletePlant(plant_id);
