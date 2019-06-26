@@ -1,7 +1,16 @@
 const db = require('../dbConfig');
 
-async function addPlant(plant, plant_id, user_id) {
-    return await db('plants').insert({ plant_type_id: plant.plant_type_id, name: plant.name, watering_frequency: plant.watering_frequency, last_watered_at: plant.last_watered_at, height: plant.height, user_id: user_id, plant_id: plant_id });
+async function addPlant(plant, plant_id, user_id, next_watering) {
+    return await db('plants').insert({
+        plant_type_id: plant.plant_type_id,
+        name: plant.name,
+        watering_frequency: plant.watering_frequency,
+        last_watered_at: plant.last_watered_at,
+        height: plant.height,
+        user_id: user_id,
+        plant_id: plant_id,
+        next_watering: next_watering
+    });
 }
 
 async function getPlantById(plant_id) {
@@ -17,7 +26,7 @@ async function getPlantByUserId(user_id) {
         .where({ user_id });
 }
 
-async function updatePlant(plant, plant_id) {
+async function updatePlant(plant, plant_id, next_watering) {
     return await db('plants')
         .where({ plant_id })
         .update({ plant_type_id: plant.plant_type_id, name: plant.name, watering_frequency: plant.watering_frequency, last_watered_at: plant.last_watered_at, height: plant.height });
@@ -47,6 +56,16 @@ async function getHeightHistory(plant_id) {
         .select('*')
         .where({ plant_id });
 }
+
+// async function
+// async function getAllPlantsThatNeedsTpBeWateredToday(date) {
+//     return await db('plants')
+//     .select('phone_number')
+//     .where({})
+// }
+
+// where the_timestamp_column >= timestamp '2015-07-15 00:00:00'
+//   and the_timestamp_column < timestamp '2015-07-16 00:00:00';
 
 module.exports = {
     addPlant,
