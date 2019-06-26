@@ -5,8 +5,8 @@ const authToken = process.env.TWILLIO_TOKEN;
 const client = require('twilio')(accountSid, authToken);
 
 //db
-const Plants = require('../database/helpers/plants');
-const Users = require('../database/helpers/users');
+const Plants = require('./src/database/helpers/plants');
+const Users = require('./src/database/helpers/users');
 
 //variables
 let todayStart = new Date();
