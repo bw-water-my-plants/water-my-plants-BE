@@ -22,10 +22,11 @@ async function getAllPhoneNumbers() {
         //twilio sending reminders
         Promise.all(
             listOfPhoneNumbers.map(info => {
+                let name = info.plant_name || info.plant_type;
                 return client.messages.create({
                     to: info.phone_number,
                     from: process.env.TWILIO_MESSAGING_SERVICE_SID,
-                    body: `Hello ${info.name}!👋 We would like to remind you to water your beautiful ${info.plant_name} 🌱 today!`
+                    body: `Hello ${info.name}!👋 We would like to remind you to water your beautiful ${name} 🌱 today!`
                 });
             })
         )
