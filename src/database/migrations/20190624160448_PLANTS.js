@@ -9,6 +9,7 @@ exports.up = function(knex, Promise) {
         table.timestamp('last_watered_at').notNullable();
         table.timestamp('next_watering_at').notNullable();
         table.string('height', 128);
+        table.string('img_id', 128).notNullable();
     });
 };
 
