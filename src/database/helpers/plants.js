@@ -70,9 +70,6 @@ async function getAllPlantsThatNeedsToBeWateredToday(start, end) {
         .whereBetween('next_watering_at', [start, end]);
 }
 
-// where the_timestamp_column >= timestamp '2015-07-15 00:00:00'
-//   and the_timestamp_column < timestamp '2015-07-16 00:00:00';
-
 module.exports = {
     addPlant,
     getPlantById,
