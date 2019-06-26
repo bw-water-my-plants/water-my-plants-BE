@@ -1,7 +1,17 @@
 const db = require('../dbConfig');
 
-async function addPlant(plant, plant_id, user_id) {
-    return await db('plants').insert({ plant_type_id: plant.plant_type_id, name: plant.name, watering_frequency: plant.watering_frequency, last_watered_at: plant.last_watered_at, height: plant.height, user_id: user_id, plant_id: plant_id });
+async function addPlant(plant, plant_id, user_id, next_watering_at) {
+    return await db('plants').insert({
+        plant_type: plant.plant_type,
+        name: plant.name,
+        watering_frequency: plant.watering_frequency,
+        last_watered_at: plant.last_watered_at,
+        height: plant.height,
+        img_id: plant.img_id,
+        user_id: user_id,
+        plant_id: plant_id,
+        next_watering_at: next_watering_at
+    });
 }
 
 async function getPlantById(plant_id) {
@@ -20,8 +30,15 @@ async function getPlantByUserId(user_id) {
 async function updatePlant(plant, plant_id) {
     return await db('plants')
         .where({ plant_id })
-        .update({ plant_type_id: plant.plant_type_id, name: plant.name, watering_frequency: plant.watering_frequency, last_watered_at: plant.last_watered_at, height: plant.height });
+        .update({ plant_type: plant.plant_type, name: plant.name, watering_frequency: plant.watering_frequency, last_watered_at: plant.last_watered_at, height: plant.height, img_id: plant.img_id });
 }
+
+async function updatePlantNextWatering(plant_id, next_watering_at) {
+    return await db('plants')
+        .where({ plant_id })
+        .update({ next_watering_at: next_watering_at });
+}
+
 async function deletePlant(plant_id) {
     return await db('plants')
         .where({ plant_id })
@@ -48,6 +65,12 @@ async function getHeightHistory(plant_id) {
         .where({ plant_id });
 }
 
+async function getAllPlantsThatNeedsToBeWateredToday(start, end) {
+    return await db('plants')
+        .select('*')
+        .whereBetween('next_watering_at', [start, end]);
+}
+
 module.exports = {
     addPlant,
     getPlantById,
@@ -57,5 +80,7 @@ module.exports = {
     addToWateringHistory,
     addToHeightHistory,
     getWateringHistory,
-    getHeightHistory
+    getHeightHistory,
+    updatePlantNextWatering,
+    getAllPlantsThatNeedsToBeWateredToday
 };

@@ -22,6 +22,7 @@
         "knex": "^0.17.6",
         "pg": "^7.11.0",
         "sqlite3": "^4.0.9",
+        "twilio": "^3.32.0",
         "uuid": "^3.3.2"
     },
     "devDependencies": {

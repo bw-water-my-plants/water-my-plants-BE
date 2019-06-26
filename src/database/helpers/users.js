@@ -46,11 +46,19 @@ async function deleteUser(user_id) {
         .del();
 }
 
+async function getPhoneNumberFromUserId(user_id) {
+    return await db('plants')
+        .select('plants.plant_id', 'plants.name', 'plants.plant_type', 'users.username', 'users.phone_number')
+        .leftJoin('users', 'plants.user_id', 'users.user_id')
+        .where('plants.user_id', user_id);
+}
+
 module.exports = {
     getUserByEmail,
     getUserByPhoneNumber,
     getUserById,
     insertUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    getPhoneNumberFromUserId
 };
