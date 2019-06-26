@@ -10,7 +10,10 @@ async function createPlant(req, res) {
         try {
             const user_id = req.decoded.subject;
             const plant_id = uuid();
-            const newPlant = await Plants.addPlant(req.body, plant_id, user_id);
+            const days = 60 * 60 * 24 * 1000 * watering_frequency;
+            const watered_at = new Date(last_watered_at);
+            const next_watering_at = new Date(watered_at.getTime() + days);
+            const newPlant = await Plants.addPlant(req.body, plant_id, user_id, next_watering_at);
             if (req.body.height) {
                 const plantHeight = await Plants.addToHeightHistory(plant_id, user_id, req.body.height);
             }
@@ -89,7 +92,19 @@ async function updatePlant(req, res) {
 
             if (req.body.last_watered_at !== undefined) {
                 await Plants.addToWateringHistory(plant_id, user_id, req.body.last_watered_at);
+                const days = 60 * 60 * 24 * 1000 * plant.watering_frequency;
+                const watered_at = new Date(req.body.last_watered_at);
+                const next_watering_at = new Date(watered_at.getTime() + days);
+                await Plants.updatePlantNextWatering(plant_id, next_watering_at);
             }
+
+            if (req.body.watering_frequency !== undefined) {
+                const days = 60 * 60 * 24 * 1000 * req.body.watering_frequency;
+                const watered_at = new Date(req.body.last_watered_at || plant.last_watered_at);
+                const next_watering_at = new Date(watered_at.getTime() + days);
+                await Plants.updatePlantNextWatering(plant_id, next_watering_at);
+            }
+
             const updatedPlant = await Plants.updatePlant(req.body, plant_id);
             if (updatedPlant === 1) {
                 return await res.status(200).json({ message: 'Plant succesfully updated!' });

@@ -1,6 +1,6 @@
 const db = require('../dbConfig');
 
-async function addPlant(plant, plant_id, user_id, next_watering) {
+async function addPlant(plant, plant_id, user_id, next_watering_at) {
     return await db('plants').insert({
         plant_type_id: plant.plant_type_id,
         name: plant.name,
@@ -9,7 +9,7 @@ async function addPlant(plant, plant_id, user_id, next_watering) {
         height: plant.height,
         user_id: user_id,
         plant_id: plant_id,
-        next_watering: next_watering
+        next_watering_at: next_watering_at
     });
 }
 
@@ -26,11 +26,18 @@ async function getPlantByUserId(user_id) {
         .where({ user_id });
 }
 
-async function updatePlant(plant, plant_id, next_watering) {
+async function updatePlant(plant, plant_id) {
     return await db('plants')
         .where({ plant_id })
         .update({ plant_type_id: plant.plant_type_id, name: plant.name, watering_frequency: plant.watering_frequency, last_watered_at: plant.last_watered_at, height: plant.height });
 }
+
+async function updatePlantNextWatering(plant_id, next_watering_at) {
+    return await db('plants')
+        .where({ plant_id })
+        .update({ next_watering_at: next_watering_at });
+}
+
 async function deletePlant(plant_id) {
     return await db('plants')
         .where({ plant_id })
@@ -57,12 +64,11 @@ async function getHeightHistory(plant_id) {
         .where({ plant_id });
 }
 
-// async function
-// async function getAllPlantsThatNeedsTpBeWateredToday(date) {
-//     return await db('plants')
-//     .select('phone_number')
-//     .where({})
-// }
+async function getAllPlantsThatNeedsToBeWateredToday(start, end) {
+    return await db('plants')
+        .select('*')
+        .whereBetween('next_watering_at', [start, end]);
+}
 
 // where the_timestamp_column >= timestamp '2015-07-15 00:00:00'
 //   and the_timestamp_column < timestamp '2015-07-16 00:00:00';
@@ -76,5 +82,7 @@ module.exports = {
     addToWateringHistory,
     addToHeightHistory,
     getWateringHistory,
-    getHeightHistory
+    getHeightHistory,
+    updatePlantNextWatering,
+    getAllPlantsThatNeedsToBeWateredToday
 };
