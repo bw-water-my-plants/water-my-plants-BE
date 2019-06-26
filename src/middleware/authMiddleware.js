@@ -13,7 +13,7 @@ function decodeToken(req, res, next) {
             }
         });
     } else {
-        return res.status(401).json({ error: 'No token provided!' });
+        return res.status(401).json({ message: 'No token provided!' });
     }
 }
 
