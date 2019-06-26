@@ -7,6 +7,7 @@ async function addPlant(plant, plant_id, user_id, next_watering_at) {
         watering_frequency: plant.watering_frequency,
         last_watered_at: plant.last_watered_at,
         height: plant.height,
+        img_id: plant.img_id,
         user_id: user_id,
         plant_id: plant_id,
         next_watering_at: next_watering_at
@@ -29,7 +30,7 @@ async function getPlantByUserId(user_id) {
 async function updatePlant(plant, plant_id) {
     return await db('plants')
         .where({ plant_id })
-        .update({ plant_type: plant.plant_type, name: plant.name, watering_frequency: plant.watering_frequency, last_watered_at: plant.last_watered_at, height: plant.height });
+        .update({ plant_type: plant.plant_type, name: plant.name, watering_frequency: plant.watering_frequency, last_watered_at: plant.last_watered_at, height: plant.height, img_id: plant.img_id });
 }
 
 async function updatePlantNextWatering(plant_id, next_watering_at) {
