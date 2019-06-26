@@ -4,7 +4,7 @@ exports.up = function(knex, Promise) {
         table.integer('plant_id');
         table.integer('user_id');
         table.timestamp('created_at').defaultTo(knex.fn.now());
-        table.integer('height', 128);
+        table.string('height', 128);
     });
 };
 

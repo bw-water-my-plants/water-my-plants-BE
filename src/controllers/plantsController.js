@@ -9,8 +9,10 @@ async function createPlant(req, res) {
         try {
             const user_id = req.decoded.subject;
             const newPlant = await Plants.addPlant(req.body, user_id);
-            await Plants.addToHeightHistory(newPlant[0], user_id, req.body.height);
-            await Plants.addToWateringHistory(newPlant[0], user_id, req.body.last_watered_at);
+            if (req.body.height) {
+                const plantHeight = await Plants.addToHeightHistory(newPlant[0], user_id, req.body.height);
+            }
+            const plantWatering = await Plants.addToWateringHistory(newPlant[0], user_id, req.body.last_watered_at);
             return res.status(201).json({ plant_id: newPlant[0] });
         } catch (err) {
             return await res.status(404).json({ error: err.message });
