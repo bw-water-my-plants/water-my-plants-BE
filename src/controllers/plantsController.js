@@ -2,15 +2,17 @@ require('dotenv').config();
 const Plants = require('../database/helpers/plants');
 
 async function createPlant(req, res) {
-    const { name, watering_frequency, last_watered_at } = req.body;
+    const { name, watering_frequency, last_watered_at  = req.body;
     if (!name || !watering_frequency || !last_watered_at) {
         return await res.status(400).json({ error: "Can't add plant. Some information are missing" });
     } else {
         try {
             const user_id = req.decoded.subject;
             const newPlant = await Plants.addPlant(req.body, user_id);
-            await Plants.addToHeightHistory(newPlant[0], user_id, req.body.height);
-            await Plants.addToWateringHistory(newPlant[0], user_id, req.body.last_watered_at);
+            if (req.body.height) {
+                const plantHeight = await Plants.addToHeightHistory(newPlant[0], user_id, req.body.height);
+            }
+            const plantWatering = await Plants.addToWateringHistory(newPlant[0], user_id, req.body.last_watered_at);
             return res.status(201).json({ plant_id: newPlant[0] });
         } catch (err) {
             return await res.status(404).json({ error: err.message });
