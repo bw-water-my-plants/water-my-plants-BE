@@ -1,5 +1,9 @@
 const db = require('../dbConfig');
 
+async function truncate() {
+    return await db('users').truncate();
+}
+
 async function getUserByEmail(email) {
     return await db
         .select('*')
@@ -60,5 +64,6 @@ module.exports = {
     insertUser,
     updateUser,
     deleteUser,
-    getPhoneNumberFromUserId
+    getPhoneNumberFromUserId,
+    truncate
 };
