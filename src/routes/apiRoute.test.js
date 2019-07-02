@@ -1,5 +1,5 @@
-const request = require('supertest');
-const server = require('../server');
+// const request = require('supertest');
+// const server = require('../server');
 
 describe('API route', () => {
     it('should return 200 on success', async done => {
